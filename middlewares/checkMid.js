@@ -11,7 +11,6 @@ const checkMid = async (req, res, next) => {
         message: "Not found",
       });
     }
-    next();
   } catch (error) {
     next(error);
   }
