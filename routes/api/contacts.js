@@ -1,35 +1,55 @@
 const express = require("express");
 const {
   validation,
-  validateStatus,
   controllerShell,
-  IdValidation,
+  isValidId,
+  checkJwt,
+  checkUniqData,
 } = require("../../middlewares");
-const { schemas } = require("../../models");
-const { contacts: controller } = require("../../controllers");
+const { joiContactsSchemas } = require("../../models");
+const { contacts: controller } = require("../../controller");
 
 const router = express.Router();
 
-router.get("/", controllerShell(controller.getContacts));
+router.get("/", checkJwt, controllerShell(controller.getAll));
 
-router.get("/:id", IdValidation, controllerShell(controller.checkByID));
+router.get(
+  "/:contactId",
+  checkJwt,
+  isValidId,
+  controllerShell(controller.getById)
+);
 
-router.post("/", controllerShell(controller.createContact));
+router.post(
+  "/",
+  checkJwt,
+  validation(joiContactsSchemas.contactsSchema),
+  checkUniqData,
+  controllerShell(controller.add)
+);
 
-router.delete("/:id", IdValidation, controllerShell(controller.deleteContact));
+router.delete(
+  "/:contactId",
+  checkJwt,
+  isValidId,
+  controllerShell(controller.remove)
+);
 
 router.put(
-  "/:id",
-  IdValidation,
-  validation(schemas.updateAfterChangeContact),
-  controllerShell(controller.changeContact)
+  "/:contactId",
+  checkJwt,
+  isValidId,
+  validation(joiContactsSchemas.contactsSchema),
+  checkUniqData,
+  controllerShell(controller.update)
 );
 
 router.patch(
-  "/:id/favorite",
-  IdValidation,
-  validateStatus(schemas.favoriteSchema),
-  controllerShell(controller.updateFavoriteContact)
+  "/:contactId/favorite",
+  checkJwt,
+  isValidId,
+  validation(joiContactsSchemas.favoriteSchema),
+  controllerShell(controller.patch)
 );
 
 module.exports = router;

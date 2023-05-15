@@ -1,16 +1,23 @@
-const { RequestError } = require("../services");
+const { RequestError } = require("../helpers");
 
 const validation = (schema) => {
-  const checking = async (req, res, next) => {
-    if (Object.keys(req.body).length === 0)
-      next(RequestError(400, "missing fields"));
+  const func = async (req, res, next) => {
+    const body = req.body;
 
-    const { error } = schema.validate(req.body);
-    if (error) next(RequestError(400, error.message));
+    if (Object.keys(body).length === 0) {
+      next(RequestError(400, "missing fields"));
+    }
+
+    const { error } = schema.validate(body);
+
+    if (error) {
+      next(RequestError(400, error.message));
+    }
+
     next();
   };
 
-  return checking;
+  return func;
 };
 
 module.exports = validation;

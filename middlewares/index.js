@@ -1,6 +1,13 @@
 const validation = require("./validation");
-const validateStatus = require("./validateStatus");
 const controllerShell = require("./controllerShell");
-const IdValidation = require("./IdValidation");
+const isValidId = require("./isValidId");
+const checkJwt = require("./checkJwt");
+const checkUniqData = require("./checkUniqData");
 
-module.exports = { validation, validateStatus, controllerShell, IdValidation };
+module.exports = {
+  validation,
+  controllerShell,
+  isValidId,
+  checkJwt,
+  checkUniqData,
+};
