@@ -17,4 +17,14 @@ router.post(
 );
 router.get("/logout", checkJwt, controllerShell(controller.logOut));
 
+router.get(
+  "/verify/:verificationToken",
+  controllerShell(controller.verification)
+);
+router.post(
+  "/verify",
+  validation(joiUserSchemas.joiVerifyEmailSchema),
+  controllerShell(controller.resendVerification)
+);
+
 module.exports = router;
