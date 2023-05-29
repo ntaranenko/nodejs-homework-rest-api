@@ -3,6 +3,7 @@ const controllerShell = require("./controllerShell");
 const isValidId = require("./isValidId");
 const checkJwt = require("./checkJwt");
 const checkUniqData = require("./checkUniqData");
+const upload = require("./upload");
 
 module.exports = {
   validation,
@@ -10,4 +11,5 @@ module.exports = {
   isValidId,
   checkJwt,
   checkUniqData,
+  upload,
 };
